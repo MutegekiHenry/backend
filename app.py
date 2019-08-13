@@ -12,9 +12,9 @@ from kubernetes import client
 
 # configure client
 config = client.Configuration()
-config.host = os.getenv('KUBE_HOST')
-config.api_key['authorization'] = os.getenv('KUBE_TOKEN')
-config.api_key_prefix['authorization'] = 'Bearer'
+config.host = os.getenv("KUBE_HOST")
+config.api_key["authorization"] = os.getenv("KUBE_TOKEN")
+config.api_key_prefix["authorization"] = "Bearer"
 config.verify_ssl = False
 
 # create API instance
@@ -29,11 +29,16 @@ from routes.user import user_bp
 from routes.admin import admin_bp
 from routes.monitoring import monitor_bp
 from routes.deployment import deployment_bp
+<<<<<<< HEAD
 #from routes.organisation import organisation_bp
+=======
+from routes.registry import registry_bp
+
+>>>>>>> create user account
 
 def create_app(config_name):
     """ app factory """
-    
+
     # import config options
     from config import app_config
 
@@ -44,25 +49,26 @@ def create_app(config_name):
 
     # use running config settings on app
     app.config.from_object(app_config[config_name])
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     # register blueprints with the app
     app.register_blueprint(user_bp)
     app.register_blueprint(admin_bp)
     app.register_blueprint(monitor_bp)
     app.register_blueprint(deployment_bp)
-   # app.register_blueprint(organisation_bp)
+    app.register_blueprint(registry_bp)
 
     # register app with the db
     db.init_app(app)
-    
+
     # initialize jwt with app
     JWTManager(app)
-    
+
     return app
 
-# create app instance using running config
-app = create_app(os.getenv('FLASK_ENV'))
 
-if __name__ == '__main__':
+# create app instance using running config
+app = create_app(os.getenv("FLASK_ENV"))
+
+if __name__ == "__main__":
     app.run()

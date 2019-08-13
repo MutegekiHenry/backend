@@ -2,6 +2,7 @@ import unittest
 
 from app import create_app, db
 
+
 class UserTestCase(unittest.TestCase):
     """ user test case """
 
@@ -9,13 +10,14 @@ class UserTestCase(unittest.TestCase):
         """ executed before each test """
 
         # define test variables and initialize app
-        self.app = create_app('testing')
+        self.app = create_app("testing")
         self.client = self.app.test_client()
-        
+
         self.test_user = {
-            'email': 'test_email@test_domain',
-            'name': 'test_name',
-            'password': 'test_password'
+            "email": "test_email@test_domain",
+            "name": "test_name",
+            "username": "test_username",
+            "password": "test_password",
         }
 
         with self.app.app_context():
@@ -35,11 +37,13 @@ class UserTestCase(unittest.TestCase):
     def test_sign_up(self):
         """ test user creation """
 
-        response = self.client.post('/register', json=self.test_user)
+        response = self.client.post("/register", json=self.test_user)
 
         self.assertEqual(response.status_code, 201)
-        self.assertIn('test_email@test_domain', str(response.data))
-        self.assertIn('test_name', str(response.data))
+        self.assertIn("test_email@test_domain", str(response.data))
+        self.assertIn("test_name", str(response.data))
+        self.assertIn("test_username", str(response.data))
 
-if __name__ == 'main':
+
+if __name__ == "main":
     unittest.main()

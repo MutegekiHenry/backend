@@ -1,27 +1,28 @@
-from flask import current_app
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import create_access_token
 from datetime import timedelta
 
 from app import db
 
+
 class User(db.Model):
     """ user table definition """
 
-    _tablename_ = 'users'
+    _tablename_ = "users"
 
     # fields of the user table
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(256), nullable=False, default='')
-    name = db.Column(db.String(256), nullable=False, default='')
-    username = db.Column(db.String(256), nullable=False, default='')
-    password = db.Column(db.String(256), nullable=False, default='')
+    email = db.Column(db.String(256), nullable=False, default="")
+    name = db.Column(db.String(256), nullable=False, default="")
+    username = db.Column(db.String(256), nullable=False, default="")
+    password = db.Column(db.String(256), nullable=False, default="")
     date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
 
-    def __init__(self, email, name, password):
+    def __init__(self, email, name, username, password):
         """ initialize with email, username and password """
         self.email = email
         self.name = name
+        self.username = username
         self.password = Bcrypt().generate_password_hash(password).decode()
 
     def password_is_valid(self, password):
