@@ -29,12 +29,8 @@ from routes.user import user_bp
 from routes.admin import admin_bp
 from routes.monitoring import monitor_bp
 from routes.deployment import deployment_bp
-<<<<<<< HEAD
-#from routes.organisation import organisation_bp
-=======
 from routes.registry import registry_bp
 
->>>>>>> create user account
 
 def create_app(config_name):
     """ app factory """
